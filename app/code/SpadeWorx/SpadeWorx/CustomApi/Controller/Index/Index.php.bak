@@ -1,0 +1,51 @@
+<?php
+namespace SpadeWorx\CustomApi\Controller\Index;
+use Magento\Sales\Model\Order;
+
+class Index extends \Magento\Framework\App\Action\Action
+{
+    public function execute()
+    {
+		
+		//print_r($_REQUEST); //die;
+		  $orderId = $_POST['orderid'];
+		  $SAPInvoiceNo = $_POST['SAPInvcNo'];
+		  $orderSts = $_POST['orderSts'];
+		  if(!empty($orderId) && !empty($SAPInvoiceNo))
+		  {
+			    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+				//check order exists or not
+				$order = $objectManager->create('\Magento\Sales\Model\Order')->loadByIncrementId($orderId);
+				
+				if(!empty($order->getData())){ 
+     			    $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+					$connection = $resource->getConnection();
+					//update SAPInvoice in order_key table
+				    $result =  $connection->query("UPDATE vol_order_key set SAPInvcNo = '$SAPInvoiceNo' where orderid = '$orderId' ");
+					if($result){ 
+					      //update order status when invoice genrated in SAP  //6020040735
+					      $connectionObj = $resource->getConnection();
+						  $tableName = $resource->getTableName('vol_sales_order');
+						  $sql = "UPDATE " . $tableName . " SET status = 'processing', state = 'processing' WHERE increment_id = " . $orderId;
+						  $orderStsRes = $connectionObj->query($sql);
+						  if($orderStsRes){ 
+							  echo 1;
+						  }else{ 
+							  echo 0;
+						  }
+		            }else{ 
+						echo 0;
+					}					
+				}else{ 
+						echo 0;
+					}
+			}
+             
+    }
+	
+	
+}
+
+
+
+

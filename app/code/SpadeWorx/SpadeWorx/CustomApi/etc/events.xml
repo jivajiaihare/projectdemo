@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+   <!-- <event name="checkout_onepage_controller_success_action">
+        <observer name="checkout_controller_success_action" instance="SpadeWorx\CustomApi\Observer\AfterPlaceOrder" />
+    </event>-->
+	<event name="sales_order_place_after">
+        <observer name="order_place_after" instance="SpadeWorx\CustomApi\Observer\OrderPlaceAfter" />
+    </event>
+	<!--<event name="checkout_submit_all_after">
+        <observer name="submit_order_after" instance="SpadeWorx\CustomApi\Observer\SubmitOrder" />
+    </event>-->
+</config>

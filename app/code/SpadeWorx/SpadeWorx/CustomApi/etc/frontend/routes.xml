@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="ordersts" frontName="ordersts">
+            <module name="SpadeWorx_CustomApi" />
+        </route>
+    </router>
+</config>
